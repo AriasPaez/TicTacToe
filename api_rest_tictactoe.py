@@ -5,19 +5,16 @@ import os.path
 
 app = Flask(__name__)
 
-# Variable para conocer si empezó a jugar primero la maquina o el usuario
-# True , Empezó primero la maquina
-# False, empezó jugando primero el usuario
 class Game:
+    # Variable para conocer si maquina juega con "x" u "o"
+# True , Maquina juega con x
+# False, Maquina juega con o
     firstMachine = True
     dataGAMES = {}
     pathFileGAMES = "games.json"
 
     # Obtiene todo el contenido del archivo <.json>. 
     # Devuelve un json
-
-
-
     def getFile(rutaFile):
         with open(rutaFile) as file:
             data = json.load(file)
@@ -32,7 +29,6 @@ class Game:
     def write_on_file_plays(date_games_to_save, path_file_on_save_games):
         with open(path_file_on_save_games, 'w') as file:
             json.dump(date_games_to_save, file, indent=4)
-
 
     #Recibe un tablero del estado del juego, 
     # y devuelve un array con las posiciones que están marcadas con un simbolo, 
@@ -87,25 +83,29 @@ class Game:
         return 0
 
 # -----------------------------------------------------------------------------------------------------
-
+# APRENDE NUEVA JUGADA
+# Agrega una nueva jugada al JSON que contiene las jugadas aprendidas
 @app.route('/learn_play', methods = ['POST'])
 def learn_new_play():
     new_play_to_add = request.get_json()
 
     key_to_add = ""
     value_to_add = "positive"
+    # obtiene la clave y el valor del JSON recibido
     for key_play in new_play_to_add.keys():
         key_to_add = key_play
         value_to_add = new_play_to_add[key_to_add]
     
     try:
         json_all_plays_learned = Game.getFile(Game.pathFileGAMES)    #Trae todas las jugadas aprendidas
-        json_all_plays_learned[key_to_add]
+        json_all_plays_learned[key_to_add] # Antes de agregar la jugada, verifica si la jugada ya está aprendida
+        # Si la jugada no está aprendida, procede a añadirla
     except KeyError:
         json_all_plays_learned[key_to_add] = value_to_add
         Game.write_on_file_plays(json_all_plays_learned, Game.pathFileGAMES)
         return 'La jugada ha sido aprendida'
-
+    # Si no puede traer todas las jugadas aprendidas es porque no ha aprendido alguna jugada
+    # Por tanto se procede a agregar la nueva jugada 
     except FileNotFoundError:
         Game.dataGAMES[key_to_add] = value_to_add
         Game.write_on_file_plays(Game.dataGAMES, Game.pathFileGAMES)
@@ -154,27 +154,8 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
     return ('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
 
 
-# dataGAMES['xbbbxboox']='positive'
-# dataGAMES['bbbbxboox']='negative'
-# dataGAMES['xbbbxboob']='positive'
-
 if __name__== '__main__':
     app.run(debug=True)
-
-    # File = getFile(pathFileGAMES)#Archivo JSON de las jugadas aprendidas
-    # for keysData in File.keys():#Recorre las claves
-    #     if File.get(keysData) == "positive":
-    #         print("Si!!!!!")    
-
-
-
-
-
-# sii = True if (1 in [2,3,1]) else False
-# print(sii)   
-
-
-
 
 # print(boxesMarkedWith("xbbbxboox","x"))
 #print(getFile(pathFileGAMES).keys())
