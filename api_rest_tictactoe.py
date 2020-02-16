@@ -6,10 +6,6 @@ import os.path
 app = Flask(__name__)
 
 class Game:
-    # Variable para conocer si maquina juega con "x" u "o"
-# True , Maquina juega con x
-# False, Maquina juega con o
-    firstMachine = True
     dataGAMES = {}
     pathFileGAMES = "games.json"
 
@@ -154,6 +150,10 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
     # Si no reconoce el estado actual del juego en la Base de Datos, 
     # entonces realizará un movimiento random    
     return ('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
+
+@app.route('/test', methods = ['GET'])
+def test_extern():
+    return 'Hola'
 
 
 if __name__== '__main__':
