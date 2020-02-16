@@ -94,17 +94,6 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
     #Obtiene todas las jugadas aprendidas, en formato json
     json_data_games = Game.getFile(Game.pathFileGAMES)
 
-    #JUGAR A GANAR
-    for possible_played in json_data_games.keys():
-        # Verifica si el estado actual del juego está contenido en un juego ganador y si este es positivo
-        if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "positive"):
-            if first_machine: #Si es True, maquina está jugando con x             
-                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
-                return str(Game.next_play(array_intersection_possible_played))
-            else: #Maquina está jugando con o
-                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
-                return str(Game.next_play(array_intersection_possible_played))            
-        
     #JUGAR A BLOQUEAR
     for possible_played in json_data_games.keys():
         # Verifica si el estado actual del juego está contenido en un juego ganador y si este es NEGATIVO
@@ -116,6 +105,18 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
             else: #Maquina está jugando con o
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
                 return str(Game.next_play(array_intersection_possible_played))  
+
+    #JUGAR A GANAR
+    for possible_played in json_data_games.keys():
+        # Verifica si el estado actual del juego está contenido en un juego ganador y si este es positivo
+        if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "positive"):
+            if first_machine: #Si es True, maquina está jugando con x             
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
+                return str(Game.next_play(array_intersection_possible_played))
+            else: #Maquina está jugando con o
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
+                return str(Game.next_play(array_intersection_possible_played))            
+        
     
     return 'No sé esa jugada'
 
