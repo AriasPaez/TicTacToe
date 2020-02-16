@@ -75,6 +75,7 @@ class Game:
                 return possible_position                    
         return 0
     
+    # Devuelve una jugada random.
     def next_played_random(current_play):           
         while True:  
             possible_position = random.randint(0, 8)   
@@ -83,6 +84,7 @@ class Game:
         return 0
 
 # -----------------------------------------------------------------------------------------------------
+
 # APRENDE NUEVA JUGADA
 # Agrega una nueva jugada al JSON que contiene las jugadas aprendidas
 @app.route('/learn_play', methods = ['POST'])
