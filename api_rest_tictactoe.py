@@ -76,11 +76,43 @@ class Game:
         while True:  
             possible_position = random.randint(0, 8)   
             if  possible_position in possibles_played:
-                return possible_position
-                    
+                return possible_position                    
+        return 0
+    
+    def next_played_random(current_play):           
+        while True:  
+            possible_position = random.randint(0, 8)   
+            if  current_play[possible_position] == 'b':
+                return possible_position                    
         return 0
 
 # -----------------------------------------------------------------------------------------------------
+
+@app.route('/learn_play', methods = ['POST'])
+def learn_new_play():
+    new_play_to_add = request.get_json()
+
+    key_to_add = ""
+    value_to_add = "positive"
+    for key_play in new_play_to_add.keys():
+        key_to_add = key_play
+        value_to_add = new_play_to_add[key_to_add]
+    
+    try:
+        json_all_plays_learned = Game.getFile(Game.pathFileGAMES)    #Trae todas las jugadas aprendidas
+        json_all_plays_learned[key_to_add]
+    except KeyError:
+        json_all_plays_learned[key_to_add] = value_to_add
+        Game.write_on_file_plays(json_all_plays_learned, Game.pathFileGAMES)
+        return 'La jugada ha sido aprendida'
+
+    except FileNotFoundError:
+        Game.dataGAMES[key_to_add] = value_to_add
+        Game.write_on_file_plays(Game.dataGAMES, Game.pathFileGAMES)
+        return 'La jugada ha sido aprendida'
+
+    return 'La jugada ya estaba aprendida'
+
 
 # FUNCION EN DESARROLLO...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Devolverá la poscicion de la jugada que debe realizar la maquina
@@ -117,14 +149,10 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
                 return str(Game.next_play(array_intersection_possible_played))            
         
-    
-    return 'No sé esa jugada'
+    # Si no reconoce el estado actual del juego en la Base de Datos, 
+    # entonces realizará un movimiento random    
+    return ('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
 
-
-
-
-
-    return (json_data_games)
 
 # dataGAMES['xbbbxboox']='positive'
 # dataGAMES['bbbbxboox']='negative'
