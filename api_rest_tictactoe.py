@@ -1,5 +1,6 @@
-from flask import Flask, render_template as render, request
+from flask import Flask, render_template as render, request, session
 import json
+import random
 import os.path
 
 app = Flask(__name__)
@@ -14,6 +15,9 @@ class Game:
 
     # Obtiene todo el contenido del archivo <.json>. 
     # Devuelve un json
+
+
+
     def getFile(rutaFile):
         with open(rutaFile) as file:
             data = json.load(file)
@@ -42,14 +46,14 @@ class Game:
 
     # Verifica si el estado actual del juego está contenido en un estado ganador de la base de datos.
     # Devuelve un Booleano
-    def currentBoardIsContent(currentBoard, evaluationBoard):    
+    def currentBoardIsContent(currentBoard, evaluationBoard, first_machine):    
         is_current = True
         for positionBoard in range(9):
-            if firstMachine and (currentBoard[positionBoard] != 'b'):
+            if first_machine and (currentBoard[positionBoard] != 'b'):
                 if currentBoard[positionBoard] != (evaluationBoard[positionBoard]):
                     is_current = False
                     return is_current
-            elif (firstMachine == False) and (currentBoard[positionBoard] != 'b'):
+            elif (first_machine == False) and (currentBoard[positionBoard] != 'b'):
                 if currentBoard[positionBoard] == (evaluationBoard[positionBoard]):
                     is_current = False
                     return is_current
@@ -68,12 +72,13 @@ class Game:
 
 
     # Devuelve la posición de la jugada a realizar
-    def next_play(current_board, evaluation_board):
-        if currentBoardIsContent(current_board, evaluation_board):
-            return 0
-            
-        else:
-            return 0 #SALIDA EN DESARROLLO...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     
+    def next_play(possibles_played):           
+        while True:  
+            possible_position = random.randint(0, 8)   
+            if  possible_position in possibles_played:
+                return possible_position
+                    
+        return 0
 
 # -----------------------------------------------------------------------------------------------------
 
@@ -82,14 +87,41 @@ class Game:
 @app.route('/machine_next_play', methods = ['POST'])
 def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe 
                     # y un booblean que indica True si la maquina empezó a jugar primero
+
     request_front_end = request.get_json()
     current_play = request_front_end['state_current_play']
-    firstMachine = request_front_end['first_machine']
+    first_machine = request_front_end['first_machine']
     #Obtiene todas las jugadas aprendidas, en formato json
     json_data_games = Game.getFile(Game.pathFileGAMES)
-    # for possible_played in (0, len(json_data_games)):
-    #     if possible_played == "positive":
-    #         return possible_played
+
+    #JUGAR A GANAR
+    for possible_played in json_data_games.keys():
+        # Verifica si el estado actual del juego está contenido en un juego ganador y si este es positivo
+        if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "positive"):
+            if first_machine: #Si es True, maquina está jugando con x             
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
+                return str(Game.next_play(array_intersection_possible_played))
+            else: #Maquina está jugando con o
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
+                return str(Game.next_play(array_intersection_possible_played))            
+        
+    #JUGAR A BLOQUEAR
+    for possible_played in json_data_games.keys():
+        # Verifica si el estado actual del juego está contenido en un juego ganador y si este es NEGATIVO
+        #De ser asi, se procede a bloquear las jugadas del usuario
+        if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "negative"):
+            if first_machine: #Si es True, maquina está jugando con x             
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
+                return str(Game.next_play(array_intersection_possible_played))
+            else: #Maquina está jugando con o
+                array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
+                return str(Game.next_play(array_intersection_possible_played))  
+    
+    return 'No sé esa jugada'
+
+
+
+
 
     return (json_data_games)
 
