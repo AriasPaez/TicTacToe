@@ -153,7 +153,11 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
 
 @app.route('/test', methods = ['GET'])
 def test_extern():
-    return jsonify('Hola')
+    return jsonify('hola')
+
+@app.route('/', methods = ['GET'])
+def page_home():
+    return render('index.html')
 
 
 if __name__== '__main__':
