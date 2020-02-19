@@ -1,4 +1,4 @@
-from flask import Flask, render_template as render, request, session
+from flask import Flask, render_template as render, request, session, jsonify
 import json
 import random
 import os.path
@@ -131,10 +131,10 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
         if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "negative"):
             if first_machine: #Si es True, maquina está jugando con x             
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
-                return str(Game.next_play(array_intersection_possible_played))
+                return jsonify(Game.next_play(array_intersection_possible_played))
             else: #Maquina está jugando con o
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
-                return str(Game.next_play(array_intersection_possible_played))  
+                return jsonify(Game.next_play(array_intersection_possible_played))  
 
     #JUGAR A GANAR
     for possible_played in json_data_games.keys():
@@ -142,18 +142,18 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
         if Game.currentBoardIsContent(current_play, possible_played, first_machine) and (json_data_games[possible_played] == "positive"):
             if first_machine: #Si es True, maquina está jugando con x             
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'x'), Game.boxesMarkedWith( current_play, 'x')))
-                return str(Game.next_play(array_intersection_possible_played))
+                return jsonify(Game.next_play(array_intersection_possible_played))
             else: #Maquina está jugando con o
                 array_intersection_possible_played = (Game.intersection_positions(Game.boxesMarkedWith( possible_played, 'o'), Game.boxesMarkedWith( current_play, 'o')))
-                return str(Game.next_play(array_intersection_possible_played))            
+                return jsonify(Game.next_play(array_intersection_possible_played))            
         
     # Si no reconoce el estado actual del juego en la Base de Datos, 
     # entonces realizará un movimiento random    
-    return ('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
+    return jsonify('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
 
 @app.route('/test', methods = ['GET'])
 def test_extern():
-    return 'Hola'
+    return jsonify('Hola')
 
 
 if __name__== '__main__':
