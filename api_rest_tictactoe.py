@@ -5,6 +5,9 @@ import os.path
 
 app = Flask(__name__)
 
+board = [['', ''] for _ in range(9)]
+board.append(True)
+
 class Game:
     dataGAMES = {}
     pathFileGAMES = "games.json"
@@ -151,13 +154,27 @@ def playMachine():  # Recibe el estado del tablero del juego actual de tictactoe
     # entonces realizará un movimiento random    
     return jsonify('No sé esa jugada, pos hagamos esta : '+ str(Game.next_played_random(current_play)))
 
-@app.route('/test', methods = ['GET'])
-def test_extern():
-    return jsonify('hola')
+@app.route('/index/<int:n>')
+def board_triky(n):
+    ch = 'X'
+    if board[-1]:
+        ch = 'O'
+    board[n][0] = ch
+    board[n][1] = 'disabled'
+    board[-1] = not board[-1]
+    # is_winner(board)
+    return render('index.html', board=board)
+
+@app.route('/index/r')
+def reset():
+    for n in range(len(board) - 1):
+        board[n] = ['', '']
+    return render('index.html', board=board)
+    
 
 @app.route('/', methods = ['GET'])
 def page_home():
-    return render('index.html')
+    return render('index.html', board=board)
 
 
 if __name__== '__main__':

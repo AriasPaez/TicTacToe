@@ -10,14 +10,69 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-    <div>
-        <button type="button" class="btn btn-success" onclick="play_machine_api">Get Play</button>
+    <div class="jumbotron">
+        <h1>Tic-Tac-Joe</h1>
     </div>
-    <div>
-        <h3>Home</h3>
+    <div id="board">
+        <div>
+            <table>
+                <tr id="row1">
+                    <td class="square">
+                        <form action="/index/0">
+                            <input type="submit" value="{{ board[0][0] }}" {{ board[0][1] }}>
+                        </form>
+                    </td>
+                    <td class="square v">
+                        <form action="/index/1">
+                            <input type="submit" value="{{ board[1][0] }}" {{ board[1][1] }}>
+                        </form>
+                    </td>
+                    <td class="square">
+                        <form action="/index/2">
+                            <input type="submit" value="{{ board[2][0] }}" {{ board[2][1] }}>
+                        </form>
+                    </td>
+                </tr>
+                <tr id="row2">
+                    <td class="square h">
+                        <form action="/index/3">
+                            <input type="submit" value="{{ board[3][0] }}" {{ board[3][1] }}>
+                        </form>
+                    </td>
+                    <td class="square v h">
+                        <form action="/index/4">
+                            <input type="submit" value="{{ board[4][0] }}" {{ board[4][1] }}>
+                        </form>
+                    </td>
+                    <td class="square h">
+                        <form action="/index/5">
+                            <input type="submit" value="{{ board[5][0] }}" {{ board[5][1] }}>
+                        </form>
+                    </td>
+                </tr>
+                <tr id="row3">
+                    <td class="square">
+                        <form action="/index/6">
+                            <input type="submit" value="{{ board[6][0] }}" {{ board[6][1] }}>
+                        </form>
+                    </td>
+                    <td class="square v">
+                        <form action="/index/7">
+                            <input type="submit" value="{{ board[7][0] }}" {{ board[7][1] }}>
+                        </form>
+                    </td>
+                    <td class="square">
+                        <form action="/index/8">
+                            <input type="submit" value="{{ board[8][0] }}" {{ board[8][1] }}>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <form action="/index/r">
+                <input type="submit" value="reset" class="rt">
+            </form>
+        </div>
     </div>
-
-    <script src="connect_api.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
