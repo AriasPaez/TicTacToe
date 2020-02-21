@@ -61,5 +61,11 @@
     "oxooxbobx": "negative",
     "ooobbxxbb": "negative",
     "oooxbbbxb": "negative",
-    "xboooxobx": "negative"
+    "xboooxobx": "negative",
+    "xoxooobbx": "negative",
+    "xxoooboxb": "negative",
+    "ooxoboxxx": "positive",
+    "xoxooobxb": "negative",
+    "boxoxbxbo": "positive",
+    "xoxbobbob": "negative"
 }

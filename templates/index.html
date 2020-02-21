@@ -13,7 +13,7 @@
     <link href="static/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div>
+    <div id="space_game">
         <h1 style="margin-bottom: 20px; font-family: Comic Sans MS;" class="display-2">Triki</h1>
         
         <div id="board">
@@ -79,11 +79,57 @@
                     {% endif %}
                 {% endwith%}
                 <form action="/r">
-                    <input class="rt" type="submit" value="reset" >
+                    <input class="rt" type="submit" value="Reset" >
                 </form>
             </div>
         </div>
     </div>
+    <footer class = "My_Footer">
+        <hr id="line"><hr>
+        <p> 
+            <!-- <Octicon icon={Flame} size='small'/> -->
+            Created By 
+                 
+                <a className='links'
+                href='https://github.com/AriasPaez/'
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                Cristian Andres Arias Páez
+            </a>,
+            <a className='links'
+            href='https://github.com/hernanChain/'
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Hernan Alirio Cadena Gonzalez
+            </a> && 
+            <a className='links'
+            href='https://github.com/JohamSMC/'
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Joham Sebastian Medina Corredor
+            </a>
+              
+            on Flask                      
+        </p>             
+        <!-- <br> -->
+        <p>About The Proyect On
+            <a className='links'
+            href='https://github.com/AriasPaez/TicTacToe'
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Github
+            </a>
+            
+        </p>            
+        
+        
+
+         
+    </footer>
     
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

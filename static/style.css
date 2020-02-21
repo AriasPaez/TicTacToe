@@ -1,8 +1,15 @@
 .square {
-    width: 100px;
-    height: 100px;
+    width: 30%;
+    height: 30%;
     background-color:transparent;
+    opacity: 1;
+    
 }
+
+/* #space_game{
+    width: 100%;
+    height: 80%;
+} */
 
 .v {
     border-left: 9px solid #000;
@@ -31,6 +38,8 @@ td {
 
 #board {
     text-align: center;
+    width: 100%;
+    height: 80%;
     
 }
 
@@ -40,14 +49,16 @@ h1 {
 
 .rt {
     margin-top: 20px;
-    width: 150px;
-    height: 60px;
+    width: 20%;
+    height: 10%;
     border-radius: 10px;
     border: 10 solid black;
     font-size: 30px;
     background-color: transparent;
+    opacity: 1;
     
 }
+
 
 table {
     text-align: center;
@@ -58,4 +69,30 @@ body{
     background: -webkit-linear-gradient(to right, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+}
+.My_Footer{
+    
+    padding:20px;
+    text-align: center;
+    /* background: rgb(137, 102, 163); */
+    height: 20%;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    
+}
+.links, a{
+    color: white;   
+}
+#line{
+    border:2px;
+    background: white;
+}
+
+.rt:hover{
+    opacity:0.6;
+}
+.square:hover{
+    opacity: 0.6; 
+    /* background-color: transparent; */
 }

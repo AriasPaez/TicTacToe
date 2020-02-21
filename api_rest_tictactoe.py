@@ -329,7 +329,7 @@ def board_triky(n):
         for i in range(9):
                 if board[i][0] == 'b':
                     board[i][0]='' 
-        flash("Felicidades, has ganado!")
+        flash("Congratulations, You Win!")
         return render('index.html', board=board)         
     else:
         new_board_format = Game.to_format_JSON(board)
@@ -347,7 +347,7 @@ def board_triky(n):
             for i in range(9):
                 if board[i][0] == 'b':
                     board[i][0]='' 
-            flash("Lo siento, la maquina ha ganado")       
+            flash("I'm Sorry,You Lost! ")       
             return render('index.html', board=board)
         else:
             for i in range(9):
