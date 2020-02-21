@@ -1,9 +1,10 @@
-from flask import Flask, render_template as render, request, session, jsonify, Markup
+from flask import Flask, render_template as render, request, session, jsonify, Markup, flash
 import json
 import random
 import os.path
 
 app = Flask(__name__)
+app.secret_key = 'no se la digas a nadie'
 
 board = [['', ''] for _ in range(9)]
 board.append(True)
@@ -13,61 +14,10 @@ class Game:
     pathFileGAMES = "games.json"    
     def clear_board(board, color):
         for n in range(len(board) - 1):
-            board[n][1] = Markup('style="background-color:' + color +
+            board[n][1] = Markup('style="border: 1 solid' + color +
                                 ';" disabled')
     def is_winner(board):
         array_exit = []
-        # for x in range(0, 9, 3):
-        #     row = board[x][0] + board[x + 1][0] + board[x + 2][0]
-        #     if row.count('x') == 3:
-        #         Game.clear_board(board, 'red')
-        #         array_exit.append(True)
-        #         array_exit.append('red')
-        #         return array_exit
-        #     elif row.count('o') == 3:
-        #         Game.clear_board(board, 'green')
-        #         array_exit.append(True)
-        #         array_exit.append('green')
-        #         return array_exit
-        # for x in range(3):
-        #     row = board[x][0] + board[x + 3][0] + board[x + 6][0]
-        #     if row.count('x') == 3:
-        #         Game.clear_board(board, 'red')
-        #         array_exit.append(True)
-        #         array_exit.append('red')
-        #         return array_exit
-        #     elif row.count('o') == 3:
-        #         Game.clear_board(board, 'green')
-        #         array_exit.append(True)
-        #         array_exit.append('green')
-        #         return array_exit
-        # row = board[0][0] + board[4][0] + board[8][0]
-        # if row.count('x') == 3:
-        #     Game.clear_board(board, 'red')
-        #     array_exit.append(True)
-        #     array_exit.append('red')
-        #     return array_exit
-        # elif row.count('o') == 3:
-        #     Game.clear_board(board, 'green')
-        #     array_exit.append(True)
-        #     array_exit.append('green')
-        #     return array_exit
-        # row = board[2][0] + board[4][0] + board[6][0]
-        # if row.count('x') == 3:
-        #     Game.clear_board(board, 'red')
-        #     array_exit.append(True)
-        #     array_exit.append('red')
-        #     return array_exit
-        # elif row.count('o') == 3:
-        #     Game.clear_board(board, 'green')
-        #     array_exit.append(True)
-        #     array_exit.append('green')
-        #     return array_exit
-        # if len(''.join(map(lambda l: l[0], board[:-1]))) > 8:
-        #     Game.clear_board(board, 'yellow')
-        #     array_exit.append(False)
-        #     array_exit.append('yellow')
-        #     return array_exit
 
         #----------0 1 2 -----------#
         row = board[0][0] + board[1][0] + board[2][0]
@@ -183,6 +133,7 @@ class Game:
         if board[0][0] == 'b' or board[1][0] == 'b' or board[2][0] == 'b' or board[3][0] == 'b' or board[4][0] == 'b' or board[5][0] == 'b' or board[6][0] == 'b' or board[7][0] == 'b' or board[8][0] == 'b':
             array_exit.append(False)
             array_exit.append('')
+            
             return array_exit
         else:
             # Game.clear_board(board, 'yellow')
@@ -262,7 +213,7 @@ class Game:
     def intersection_positions(array_positions_evaluation_board, array_positions_current_board):
         array_positions = array_positions_evaluation_board[:] #Clonamos el array que tiene mas posiciones; el de mayor longitud
         for i in range(0, len(array_positions_current_board)):
-            print(array_positions_current_board[i])
+            
             if (array_positions_current_board[i] in array_positions_evaluation_board):
                 array_positions.remove(array_positions_current_board[i])
         
@@ -326,7 +277,7 @@ class Game:
         return str(Game.next_played_random(current_play))
     # APRENDE NUEVA JUGADA
     # Agrega una nueva jugada al JSON que contiene las jugadas aprendidas
-    # @app.route('/learn_play', methods = ['POST'])
+    
     def learn_new_play(new_play_to_add,who_win):
         # new_play_to_add = request.get_json()
         key_to_add = ""
@@ -357,16 +308,14 @@ class Game:
 
 
 # -----------------------------------------------------------------------------------------------------
-@app.route('/index/<int:n>')
+#@app.route('/index/<int:n>')
+@app.route('/<int:n>')
 def board_triky(n):
     ch = 'x'
     if board[-1]:
         ch = 'o'
     board[n][0] = ch
     board[n][1] = 'disabled'
-    # board[-1] = not board[-1]
-    print(board)
-    # is_winner(board)
     for i in range(9):
         if board[i][0] == 'b':
             board[i][0]=''  
@@ -375,69 +324,52 @@ def board_triky(n):
     if Game.is_winner(board)[0]:# and (Game.is_winner(board)[1] != 'yellow'):
 
         new_board_format = Game.to_format_JSON_LEARN(board,Game.is_winner(board)[1])
+        print(new_board_format)
         print(Game.learn_new_play(new_board_format,Game.is_winner(board)[1]))
-        return render('index.html', board=board)
-                    
+        for i in range(9):
+                if board[i][0] == 'b':
+                    board[i][0]='' 
+        flash("Felicidades, has ganado!")
+        return render('index.html', board=board)         
     else:
         new_board_format = Game.to_format_JSON(board)
-        print("-------------------------------->")
-        print(new_board_format['state_current_play'])
+        
         if 'b' in new_board_format['state_current_play']:
-            print("-------------------------------->")
-            # print(new_board_format)
-            # print(str(new_board_format['state_current_play']))
+            
             machine_of_play = Game.playMachine(new_board_format)
             board[int(machine_of_play)][0] = 'x'
             board[int(machine_of_play)][1] = 'disabled'
-
-        # print(new_board_format)   
+             
         if Game.is_winner(board)[0]:
             new_board_format = Game.to_format_JSON_LEARN(board,Game.is_winner(board)[1])
+            print(new_board_format)
             print(Game.learn_new_play(new_board_format,Game.is_winner(board)[1]))
+            for i in range(9):
+                if board[i][0] == 'b':
+                    board[i][0]='' 
+            flash("Lo siento, la maquina ha ganado")       
             return render('index.html', board=board)
         else:
+            for i in range(9):
+                if board[i][0] == 'b':
+                    board[i][0]='' 
+            
             return render('index.html', board=board)
 
 
-
-
-
-@app.route('/test')
-def test_to_json():
-    array_board = [['x',''],['',''],['',''],['o',''],['',''],['',''],['',''],['x',''],['o',''],True]
-    new_board = ''
-    for i in range(9):
-        if array_board[i][0] == '':
-            array_board[i][0]='b'
-        
-        new_board += array_board[i][0]
-    
-    board_dic = {'first_machine':str(array_board[-1]), 'state_current_play':str(new_board)}    
-    # return jsonify("state_current_play:"+str(new_board)+",first_machine:"+str(array_board[-1]))
-    return jsonify(board_dic)
-
-@app.route('/index/r')
+#@app.route('/index/r')
+@app.route('/r')
 def reset():
     for n in range(len(board) - 1):
         board[n] = ['', '']
     return render('index.html', board=board)
     
 
-@app.route('/', methods = ['GET'])
+@app.route('/')
 def page_home():
     return render('index.html', board=board)
 
 
 if __name__== '__main__':
     app.run(host = "0.0.0.0",  debug=True)
-
-# print(boxesMarkedWith("xbbbxboox","x"))
-#print(getFile(pathFileGAMES).keys())
-# print(currentBoardIsContent( 'xbbbbbobb','xbbbxboox'))
-# print(currentBoardIsContent( 'xbbbbboxb','xbbbxboox'))
-# print(currentBoardIsContent( 'obbbbbxbb','xbbbxboox'))
-# print(currentBoardIsContent( 'obbbbbxob','xbbbxboox'))
-
-# print(intersection_positions( [1,2,3,4],[2,4,3]))
-
 
