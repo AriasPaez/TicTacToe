@@ -1,4 +1,4 @@
-#  :hash: Tic Tac Toe
+#  :hash: TRIKY
 ## :pencil2: Desarrolladores: 
 
 * :pushpin: Cristian Andres Arias Páez [GitHub  :paperclip:](https://github.com/AriasPaez/)  

@@ -1,0 +1,63 @@
+ * Serving Flask app "api_rest_tictactoe" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+[['', ''], ['', ''], ['o', 'disabled'], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], True]
+-------------------------------->
+bbobbbbbb
+-------------------------------->
+2
+[['b', ''], ['b', ''], ['o', 'disabled'], ['b', ''], ['b', ''], ['o', 'disabled'], ['b', ''], ['b', ''], ['x', 'disabled'], True]
+-------------------------------->
+bbobbobbx
+-------------------------------->
+2
+5
+[['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['b', ''], ['b', ''], ['o', 'disabled'], ['b', ''], ['b', ''], ['x', 'disabled'], True]
+-------------------------------->
+oxobbobbx
+-------------------------------->
+0
+2
+5
+[['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['b', ''], ['b', ''], ['x', 'disabled'], True]
+-------------------------------->
+oxooxobbx
+-------------------------------->
+[['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['x', 'disabled'], True]
+-------------------------------->
+oxooxoxox
+[['o', 'disabled'], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], True]
+-------------------------------->
+obbbbbbbb
+-------------------------------->
+0
+[['o', 'disabled'], ['o', 'disabled'], ['b', ''], ['x', 'disabled'], ['b', ''], ['b', ''], ['b', ''], ['b', ''], ['b', ''], True]
+-------------------------------->
+oobxbbbbb
+-------------------------------->
+0
+1
+[['o', 'disabled'], ['o', 'disabled'], ['o', 'disabled'], ['x', 'disabled'], ['b', ''], ['x', 'disabled'], ['b', ''], ['b', ''], ['b', ''], True]
+La jugada ha sido aprendida
+[['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['o', 'disabled'], ['', ''], True]
+-------------------------------->
+bbbbbbbob
+-------------------------------->
+7
+[['x', 'disabled'], ['b', ''], ['b', ''], ['b', ''], ['b', ''], ['o', 'disabled'], ['b', ''], ['o', 'disabled'], ['b', ''], True]
+-------------------------------->
+xbbbbobob
+-------------------------------->
+5
+7
+[['x', 'disabled'], ['b', ''], ['o', 'disabled'], ['x', 'disabled'], ['b', ''], ['o', 'disabled'], ['b', ''], ['o', 'disabled'], ['b', ''], True]
+-------------------------------->
+xboxbobob
+-------------------------------->
+[['x', 'disabled'], ['b', ''], ['o', 'disabled'], ['x', 'disabled'], ['x', 'disabled'], ['o', 'disabled'], ['o', 'disabled'], ['o', 'disabled'], ['b', ''], True]
+-------------------------------->
+xboxxooob
+-------------------------------->
+La jugada ha sido aprendida
