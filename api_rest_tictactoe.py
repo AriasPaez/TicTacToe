@@ -350,11 +350,18 @@ def board_triky(n):
             flash("I'm Sorry,You Lost! ")       
             return render('index.html', board=board)
         else:
+            Tied = True
             for i in range(9):
                 if board[i][0] == 'b':
+                    Tied = False
                     board[i][0]='' 
+            if Tied:
+                flash("Tied Game! ")
+                return render('index.html', board=board)
+            else:
+                flash("Keep playing! ")
+                return render('index.html', board=board)
             
-            return render('index.html', board=board)
 
 
 #@app.route('/index/r')
